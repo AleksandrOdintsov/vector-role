@@ -3,13 +3,13 @@
 
 **/.terraform/*  # игнорировать все вложенные каталоги в terraform
 
-*.tfstate  #файл состояния terraform 
-*.tfstate.*
+*.tfstate   #файл состояния terraform 
+*.tfstate.* 
 
 crash.log  # исключить файлы лога сбоев 
 crash.*.log
 
-*.tfvars 
+*.tfvars       #исключить все файлы с расширением .tfvars 
 *.tfvars.json  # исключить все файлы в которых могут содержать пароли ,
 закрыте  ключи
  
