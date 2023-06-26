@@ -1,6 +1,5 @@
 # devops-netology
 
-
 **/.terraform/*  # игнорировать все вложенные каталоги в terraform
 
 *.tfstate   #файл состояния terraform 
