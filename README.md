@@ -1,15 +1,14 @@
-vector
+Clickhouse
 =========
 
-This role can install Vector
+This role can install Clickhouse 
 
 Role Variables
 --------------
 
 |vars|description|
-|____|____________|
-|vector_version |Version of vector to install| 
-
+|-----|-----------|
+|clickhouse_version |Version of clickhouse to install| 
 
 
 Example Playbook
@@ -19,7 +18,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: vector }
+         - { role: clickhouse }
 
 License
 -------

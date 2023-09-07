@@ -1,6 +1,6 @@
 ---
-- name: Reload vector
+- name: Start clickhouse service
   become: true
   ansible.builtin.service:
-    name: vector
+    name: clickhouse-server
     state: restarted
