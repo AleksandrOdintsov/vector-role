@@ -1,38 +1,18 @@
 ---
-- name: NGINX | Install epel-release
+- name: Get Vector distrib
+  ansible.builtin.get_url:
+    url: "https://packages.timber.io/vector/{{ vector_version }}/vector-{{ vector_version }}-1.x86_64.rpm"
+    dest: "./vector-{{ vector_version }}-1.x86_64.rpm"
+    mode: 0644"
+- name: Install vector packages
   become: true
   ansible.builtin.yum:
-    name: epel-release
+    name:
+      - vector-{{ vector_version }}-1.x86_64.rpm
     state: present
-- name: NGINX | Install NGINX
-  become: true
-  ansible.builtin.yum:
-    name: nginx
-    state: present
-  notify: Start-nginx
-- name: NGINX | Create general config
-  become: true
+- name: Config template
   ansible.builtin.template:
-    src: templates/nginx.conf.j2
-    dest: /etc/nginx/nginx.conf
+    src: vector.j2
+    dest: vector.yml
     mode: "0644"
-  notify: Reload-nginx
-
-- name: Lighthouse| install dependencies
-  become: true
-  ansible.builtin.yum:
-    name: git
-    state: present
-
-- name: Lighthouse | Copy from git
-  ansible.builtin.git:
-    repo: "{{ lighthouse_vcs }}"
-    version: master
-    dest: "{{ lighthous_local_dir }}"
-- name: Lighthouse | Create ligthouse config
-  become: true
-  ansible.builtin.template:
-    src: lighthouse.conf.j2
-    dest: /etc/nginx/conf.d/defult.conf
-    mode: "0644"
-  notify: Reload-nginx
+    validate: vector validate --no-environment --config-yaml %s

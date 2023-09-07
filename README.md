@@ -1,20 +1,17 @@
-Ligthouse
+vector
 =========
 
-This role can install Ligthouse and Nginx
+This role can install Vector
 
 Role Variables
 --------------
 
 |vars|description|
 |____|____________|
-|lighthouse_vcs | provide path to ligthouse from git|
+|vector_version |Version of vector to install| 
 
-Dependencies
-------------
-|Dependencies|description|
-|____|____________|
-|git |install git| 
+
+
 Example Playbook
 ----------------
 
@@ -22,7 +19,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: ligthouse }
+         - { role: vector }
 
 License
 -------
