@@ -1,5 +1,5 @@
 ## Clichouse , Vector and Ligthouse  Ansible-Playbook
-Данный playbook скачивает и устанавливает Clichouse и Vector на укащанное в файле inventory окружения для 
+Данный playbook скачивает и устанавливает роли Clichouse , Vector и Ligthouse  на указанное в файле inventory окружения для 
 
 
 ClickHouse — это колоночная аналитическая СУБД с открытым кодом, позволяющая выполнять аналитические запросы в режиме реального времени на структурированных больших данных
@@ -13,18 +13,18 @@ Nginx - web сервер , необходимы для работы LightHouse
 ## Версия ОС рабочих станций
 Centos7
 ## Версия ПО и Теги
-| Имя | Тег | Версия | 
+| Имя | Тег | Версия по умолчанию | 
 | :-----:| :-----:|:-----:|
 |Clickhouse |сlickhouse |21.1.9.41-2 |
 |Vector|vector|0.21.1|
 |LightHouse |ligthouse| laster |
 |Nginx|nginx | laster|
 
-можно указать нужную версию в дерриктории group_vars
+можно указать нужную версию в дерриктории с названием роли после скачиванию 
 
 
 
-## Работа Ansible-Playbook (Task)
+## Работа Ролей 
 ### Clickhouse 
 Download  distr  - скачивает дистрибутив clickhouse 
 Install clickhouse packages - устанавилвает пакеты для клиента  сервара 

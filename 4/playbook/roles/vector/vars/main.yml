@@ -1,5 +1,4 @@
 ---
-vector_version: 0.21.1
 vector_config:
   sources:
     logs:
