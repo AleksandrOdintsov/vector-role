@@ -24,7 +24,7 @@
         name:
           - "vector-{{ vector_version_rpm }}-1.x86_64.rpm"
         disable_gpg_check: yes
-      notify: restart vector
+
       when: ansible_facts['pkg_mgr'] == 'dnf'
 
     - name: PreInstall vector packages for Ubuntu
@@ -38,10 +38,16 @@
       ansible.builtin.apt:
         deb: vector_{{ vector_version_deb }}-1_amd64.deb
         install_recommends: yes
-      notify: restart vector
+        notify: restart vector
       when: ansible_facts['pkg_mgr'] == 'apt'
   tags:
     - packages
+- name: Configure Service | Template systemd unit
+  become: true
+  ansible.builtin.template:
+    src: vector.service.j2
+    dest: /etc/systemd/system/vector.service
+    mode: 0644
 
 - name: Vector template
   ansible.builtin.template:
@@ -51,14 +57,13 @@
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_gid }}"
     # validate: vector validate --no-environment --config-yaml %s
-  notify: restart vector
+
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
 
 - name: Vector config validate
   ansible.builtin.command: "vector validate --no-environment vector.yml"
   register: valid_config
-
 # - name: Vector start service
 #   become: true
 #   ansible.builtin.command: "/usr/bin/vector --config-yaml vector.yml --watch-config"
@@ -68,34 +73,10 @@
   shell: >
     echo -n $(pgrep vector)
   register: vector_pid
-
 - name: Kill process
   ansible.builtin.shell:
     cmd: "kill {{ vector_pid.stdout }}"
   when: vector_pid.stdout is defined and vector_pid.stdout != ''
-
 - name: Run command in background
   ansible.builtin.shell:
     cmd: "/usr/bin/vector --config-yaml vector.yml --watch-config &"
-
-- name: Add vector user to docker group
-  user:
-    name: vector
-    groups: docker
-    append: yes
-  when: add_vector_docker_group | default(no)
-  notify: restart vector
-
-- name: Add vector user to systemd-journal group
-  user:
-    name: vector
-    groups: systemd-journal
-    append: yes
-  when: add_vector_journal_group | default(no)
-  notify: restart vector
-
-- name: Start Vector
-  service:
-    state: started
-    enabled: yes
-    name: vector
